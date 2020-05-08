@@ -157,7 +157,7 @@ namespace Liquid.Repository
                         //Check, if the property is a Light ViewModel, only they will validation Lights ViewModel
                         if ((item.GetType().BaseType != typeof(object))
                              && (item.GetType().BaseType != typeof(System.ValueType))
-                             && (child.GetType().BaseType.IsGenericType &&
+                             && (item.GetType().BaseType.IsGenericType &&
                                 item.GetType().BaseType.GetGenericTypeDefinition() == typeof(LightModel<>)))
                         {
                             dynamic obj = item;
