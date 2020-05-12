@@ -30,7 +30,6 @@ namespace Liquid.OnAzure.Tests
         private static readonly IFixture _fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
 
         private static readonly ILightRepository _fakeLightRepository = Substitute.For<ILightRepository>();
-
       
         public LightRepositoryTests()
         {
@@ -38,6 +37,7 @@ namespace Liquid.OnAzure.Tests
 
             Workbench.Instance.AddToCache(WorkbenchServiceType.Repository, _fakeLightRepository);
             _fakeLightRepository.Initialize();
+            
             //_fakeLightRepository.
 
 
@@ -46,17 +46,37 @@ namespace Liquid.OnAzure.Tests
         [Fact]
         public async Task CtorWhenConfigurationIsNullThrows()
         {
-            var _entity = new InheritsLightModel
+            try
             {
-                id = Guid.NewGuid().ToString(),
-                TestList = new List<InheritsLightModel> { new InheritsLightModel { id = Guid.NewGuid().ToString(), TestList = new List<InheritsLightModel>() } }
-        };
-            var result = await _fakeLightRepository.AddOrUpdateAsync<InheritsLightModel>(_entity);
 
-            Assert.NotNull(result);
+                var _entity = new InheritsLightModel
+                {
+                    //id = Guid.NewGuid().ToString(),
+                    id = "B",
+                    TestList = new List<InheritsLightModel>
+                    {
+                        //new InheritsLightModel
+                        //{
+                        //    id = Guid.NewGuid().ToString(),
+                        //    TestList = new List<InheritsLightModel>()
+                        //}
+                    }
+                };
+
+
+                _entity.Validate();
+               var tes =  _entity.InputErrors;
+            }
+            catch(Exception ex)
+            {
+
+            }
+            //var result = await _fakeLightRepository.AddOrUpdateAsync(_entity);
+
+            //Assert.NotNull(result);
 
         }
-
+        
 
 
         public void Dispose()
@@ -83,7 +103,8 @@ namespace Liquid.OnAzure.Tests
 
         public override void Validate()
         {
-            RuleFor(i => i.TestList.Count).LessThanOrEqualTo(0).WithErrorCode("not_null");
+            RuleFor(i => i.id).Equal("A").WithMessage("OK");
+            //RuleFor(i => i.TestList.Count).LessThanOrEqualTo(0).WithErrorCode("not_null");
         }
     }
 }
